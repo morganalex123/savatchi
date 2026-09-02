@@ -28,7 +28,7 @@ nav{position:fixed;bottom:0;left:0;right:0;height:72px;background:rgba(255,255,2
 .pic img{width:100%;height:100%;padding:10px;object-fit:contain;background:#fafafa}.card{min-width:0}.name{min-height:38px;line-height:19px}.price{font-size:16px}.sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style><style id="savatchi-admin-style">
 .admin-grid{display:grid;gap:10px}.admin-grid input,.admin-grid select{width:100%;padding:13px;border:1px solid var(--line);border-radius:14px;background:#fff}.admin-actions{display:flex;gap:8px;flex-wrap:wrap}.admin-product{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:14px}.admin-product img{width:52px;height:52px;object-fit:contain;border-radius:10px;background:#fafafa}.danger{background:#fff0f0!important;color:#c33!important}.location-ok{color:#15966f;font-weight:700}.admin-badge{font-size:12px;color:var(--muted)}
-<style id="location-prompt-style">
+</style><style id="location-prompt-style">
 .location-overlay{position:fixed;inset:0;z-index:100;background:rgba(10,18,16,.46);display:none;align-items:flex-end;justify-content:center;padding:16px}
 .location-overlay.show{display:flex}
 .location-sheet{width:min(680px,100%);background:#fff;border-radius:26px;padding:24px 20px calc(22px + env(safe-area-inset-bottom));box-shadow:0 18px 60px rgba(0,0,0,.2);text-align:center}
@@ -37,7 +37,6 @@ nav{position:fixed;bottom:0;left:0;right:0;height:72px;background:rgba(255,255,2
 .location-sheet p{margin:0 auto 18px;max-width:520px;color:#68736f;font-size:14px;line-height:1.5}
 .location-primary{width:100%;border:0;border-radius:15px;background:var(--g);color:#fff;padding:15px;font-weight:900;font-size:16px}
 .location-secondary{width:100%;border:0;background:transparent;color:#66716e;padding:13px 10px;font-weight:800}
-</style>
 </style>
 <style id="savatchi-polish">
 header{padding:12px 18px 8px;border-bottom:0}
@@ -122,8 +121,21 @@ nav button.active .nav-icon{stroke-width:2.1}
 }
 .page.active{display:block !important}
 .page:not(.active){display:none !important}
+<style id="savatchi-absolute-nav-fix">
+#bottomNav{position:fixed!important;display:block!important;left:0!important;right:0!important;bottom:0!important;height:calc(64px + env(safe-area-inset-bottom))!important;padding:0 0 env(safe-area-inset-bottom)!important;z-index:2147483647!important;pointer-events:auto!important;isolation:isolate!important;}
+#bottomNav .navin{height:64px!important;width:100%!important;display:grid!important;grid-template-columns:repeat(4,1fr)!important;pointer-events:auto!important;}
+#bottomNav button{width:100%!important;height:64px!important;display:flex!important;align-items:center!important;justify-content:center!important;pointer-events:auto!important;touch-action:manipulation!important;-webkit-user-select:none!important;user-select:none!important;-webkit-tap-highlight-color:transparent!important;}
 </style>
-</head>
+</style>
+<style id="savatchi-nav-anchor-fix">
+#bottomNav{position:fixed!important;left:0!important;right:0!important;bottom:0!important;z-index:2147483647!important;pointer-events:auto!important;isolation:isolate!important}
+#bottomNav .navin{width:100%!important;height:64px!important;display:grid!important;grid-template-columns:repeat(4,1fr)!important;pointer-events:auto!important}
+#bottomNav a{width:100%!important;height:64px!important;display:flex!important;align-items:center!important;justify-content:center!important;flex-direction:column!important;gap:3px!important;text-decoration:none!important;color:var(--muted)!important;pointer-events:auto!important;touch-action:manipulation!important;-webkit-tap-highlight-color:transparent!important;position:relative!important;z-index:2147483647!important}
+#bottomNav a.active{color:var(--g)!important}
+#bottomNav a *{pointer-events:none!important}
+.page:target{display:block!important}
+body:has(.page:target) .page.active:not(:target){display:none!important}
+</style></head>
 <body>
 <div id="locationPrompt" class="location-overlay" role="dialog" aria-modal="true">
   <div class="location-sheet">
@@ -197,23 +209,15 @@ nav button.active .nav-icon{stroke-width:2.1}
 </section>
 </div>
 
-<nav id="bottomNav"><div class="navin">
-<button type="button" class="active" data-page="home">
-<span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.5 12 3.8l8.5 6.7"></path><path d="M5.5 9.5v10h13v-10"></path><path d="M9.5 19.5v-6h5v6"></path></svg></span>
-<span data-i18n="home">Главная</span>
-</button>
-<button type="button" data-page="orders">
-<span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2"></rect><path d="M9 7.5h6M9 11.5h6M9 15.5h4"></path></svg></span>
-<span data-i18n="orders">Заказы</span>
-</button>
-<button type="button" data-page="cart">
-<span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.5 10.5h10L20 8H7"></path><circle cx="9.5" cy="19" r="1.2"></circle><circle cx="17" cy="19" r="1.2"></circle></svg></span>
-<span data-i18n="cart">Корзина</span>
-</button>
-<button type="button" data-page="profile">
-<span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"></circle><path d="M5.5 20c.8-3.3 3-5 6.5-5s5.7 1.7 6.5 5"></path></svg></span>
-<span data-i18n="profile">Профиль</span>
-</button>
+<nav id="bottomNav" aria-label="Навигация"><div class="navin">
+<a href="#home" role="button" class="active" data-page="home" onclick="show('home',this)">
+<span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 10.5 12 3.8l8.5 6.7"></path><path d="M5.5 9.5v10h13v-10"></path><path d="M9.5 19.5v-6h5v6"></path></svg></span><span data-i18n="home">Главная</span></a>
+<a href="#orders" role="button" data-page="orders" onclick="show('orders',this)">
+<span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3.5" width="14" height="17" rx="2"></rect><path d="M9 7.5h6M9 11.5h6M9 15.5h4"></path></svg></span><span data-i18n="orders">Заказы</span></a>
+<a href="#cart" role="button" data-page="cart" onclick="show('cart',this)">
+<span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h2l1.5 10.5h10L20 8H7"></path><circle cx="9.5" cy="19" r="1.2"></circle><circle cx="17" cy="19" r="1.2"></circle></svg></span><span data-i18n="cart">Корзина</span></a>
+<a href="#profile" role="button" data-page="profile" onclick="show('profile',this)">
+<span class="nav-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"></circle><path d="M5.5 20c.8-3.3 3-5 6.5-5s5.7 1.7 6.5 5"></path></svg></span><span data-i18n="profile">Профиль</span></a>
 </div></nav>
 <div class="toast" id="toast"></div>
 
@@ -370,14 +374,14 @@ function getProducts(){let extra=[];try{extra=JSON.parse(localStorage.getItem('s
 function money(n){return Number(n||0).toLocaleString('ru-RU')+' сум'}
 function t(k){return (I18N[lang]||I18N.ru)[k]||I18N.ru[k]||k}
 function catName(c){return lang==='uz'?(namesUZ[c]||c):lang==='en'?(namesEN[c]||c):c}
-function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<button class="cat" type="button" onclick="selectCategory(${JSON.stringify(c[1])})"><b>${c[0]}</b>${catName(c[1])}</button>`).join('')}
+function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<button class="cat" type="button" data-category="${String(c[1]).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"><b>${c[0]}</b>${catName(c[1])}</button>`).join('')}
 function renderProducts(){const ps=getProducts(),q=(document.getElementById('search')?.value||'').toLowerCase().trim();const list=ps.filter(p=>(!selectedCategory||p.cat===selectedCategory)&&(!q||(`${p.name} ${p.uz||''} ${p.en||''}`).toLowerCase().includes(q)));const shown=(!selectedCategory&&!q)?list.slice(0,8):list;document.getElementById('products').innerHTML=shown.map(p=>`<div class="card"><div class="pic"><img src="${p.img||''}" alt="${lang==='uz'?(p.uz||p.name):lang==='en'?(p.en||p.name):p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div style="display:none;font-size:52px">${p.emoji||'🛒'}</div></div><div class="name">${lang==='uz'?(p.uz||p.name):lang==='en'?(p.en||p.name):p.name}</div><div class="sub">${p.unit||''}</div><div class="row"><div class="price">${money(p.price)}</div><button class="plus" type="button" onclick="add(${p.id})">+</button></div></div>`).join('')||`<div class="panel"><h2>${lang==='uz'?'Bu kategoriyada mahsulotlar yo‘q':lang==='en'?'No products in this category':'В этой категории пока нет товаров'}</h2></div>`;document.getElementById('popularTitle').textContent=selectedCategory?catName(selectedCategory):(lang==='uz'?'Mashhur':lang==='en'?'Popular':'Популярное')}
 function selectCategory(cat){selectedCategory=cat;document.getElementById('search').value='';document.getElementById('catTitle').innerHTML=`<button class="backcat" type="button" onclick="clearCategory()">‹ ${lang==='uz'?'Kategoriyalar':lang==='en'?'Categories':'Категории'}</button>`;renderProducts();window.scrollTo(0,0)}
 function clearCategory(){selectedCategory='';document.getElementById('catTitle').textContent=lang==='uz'?'Kategoriyalar':lang==='en'?'Categories':'Категории';renderProducts();window.scrollTo(0,0)}
 function add(id){cart[id]=(cart[id]||0)+1;renderCart();toast(lang==='uz'?'Savatga qo‘shildi':lang==='en'?'Added to cart':'Добавлено в корзину')}
 function renderCart(){const ps=getProducts(),entries=Object.entries(cart).filter(([id,q])=>q>0);const total=entries.reduce((s,[id,q])=>{const p=ps.find(x=>x.id==id);return s+(p?p.price*q:0)},0);document.getElementById('cartItems').innerHTML=entries.length?entries.map(([id,q])=>{const p=ps.find(x=>x.id==id);return `<div class="panel"><div style="display:flex;gap:12px;align-items:center"><img src="${p.img||''}" style="width:52px;height:52px;object-fit:contain;border-radius:12px;background:#fafafa"><div style="flex:1"><b>${lang==='uz'?(p.uz||p.name):lang==='en'?(p.en||p.name):p.name}</b><div class="sub">${money(p.price)} / ${p.unit}</div></div><div class="qty"><button onclick="change(${id},-1)">−</button><b>${q}</b><button onclick="change(${id},1)">+</button></div></div></div>`}).join(''):`<div class="panel"><h2 style="margin:0">🛒 ${lang==='uz'?'Savatcha bo‘sh':lang==='en'?'Cart is empty':'Корзина пуста'}</h2></div>`;document.getElementById('goodsTotal').textContent=money(total);document.getElementById('grandTotal').textContent=money(total+15000);document.getElementById('checkoutTotal').textContent=money(total+15000).replace(' сум','')}
 function change(id,d){cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];renderCart()}
-function show(id,btn){
+window.show=function(id,btn){
 const target=document.getElementById(id);
 if(!target)return;
 document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
@@ -425,7 +429,7 @@ function applyLang(){document.documentElement.lang=lang;
 document.getElementById('locationPromptTitle').textContent=t('locationPromptTitle');
 document.getElementById('locationPromptText').textContent=t('locationPromptText');
 document.getElementById('locationAllowBtn').textContent=t('locationAllow');
-document.getElementById('locationLaterBtn').textContent=t('locationLater');const langBtn=document.getElementById('langBtn'); if(langBtn) langBtn.textContent=lang==='ru'?'RU / UZ':lang==='uz'?'UZ / EN':'EN / RU';document.getElementById('address').textContent=lang==='uz'?'Yangiyo‘l':lang==='en'?'Yangiyul':'Янгиюль';document.getElementById('profileAddress').textContent=document.getElementById('address').textContent;document.getElementById('checkoutAddress').textContent=document.getElementById('address').textContent;document.getElementById('banner').firstChild.textContent=lang==='uz'?'Har kuni yangi mahsulotlar':lang==='en'?'Fresh products every day':'Свежие продукты каждый день';document.getElementById('banner').querySelector('small').textContent=lang==='uz'?'Tez • qulay • uyga':lang==='en'?'Fast • convenient • home':'Быстро • удобно • домой';document.getElementById('catTitle').innerHTML=selectedCategory?`<button class="backcat" onclick="clearCategory()">‹ ${lang==='uz'?'Kategoriyalar':lang==='en'?'Categories':'Категории'}</button>`:(lang==='uz'?'Kategoriyalar':lang==='en'?'Categories':'Категории');document.getElementById('search').placeholder=lang==='uz'?'Mahsulot qidirish...':lang==='en'?'Search products...':'Поиск товаров...';document.querySelectorAll('[data-i18n]').forEach(e=>{if(e.dataset.i18n&&t(e.dataset.i18n))e.textContent=t(e.dataset.i18n)});renderCats();renderProducts();renderCart();renderAdmin();try{localStorage.setItem('savatchi_lang',lang)}catch(e){}}
+document.getElementById('locationLaterBtn').textContent=t('locationLater');const langBtn=document.getElementById('langBtn'); if(langBtn) langBtn.textContent=lang==='ru'?'RU / UZ':lang==='uz'?'UZ / EN':'EN / RU';document.getElementById('address').textContent=lang==='uz'?'Yangiyo‘l':lang==='en'?'Yangiyul':'Янгиюль';document.getElementById('profileAddress').textContent=document.getElementById('address').textContent;document.getElementById('checkoutAddress').textContent=document.getElementById('address').textContent;document.getElementById('catTitle').innerHTML=selectedCategory?`<button class="backcat" onclick="clearCategory()">‹ ${lang==='uz'?'Kategoriyalar':lang==='en'?'Categories':'Категории'}</button>`:(lang==='uz'?'Kategoriyalar':lang==='en'?'Categories':'Категории');document.getElementById('search').placeholder=lang==='uz'?'Mahsulot qidirish...':lang==='en'?'Search products...':'Поиск товаров...';document.querySelectorAll('[data-i18n]').forEach(e=>{if(e.dataset.i18n&&t(e.dataset.i18n))e.textContent=t(e.dataset.i18n)});renderCats();renderProducts();renderCart();renderAdmin();try{localStorage.setItem('savatchi_lang',lang)}catch(e){}}
 function openAdmin(){const pin=prompt(lang==='uz'?'Admin PIN kiriting:':lang==='en'?'Enter admin PIN:':'Введите PIN администратора:');if(pin==='1234')show('admin');else if(pin!==null)toast(lang==='uz'?'PIN noto‘g‘ri':lang==='en'?'Wrong PIN':'Неверный PIN')}
 function adminAddProduct(){const name=document.getElementById('aName').value.trim(),uz=document.getElementById('aUz').value.trim(),en=document.getElementById('aEn').value.trim(),price=Number(document.getElementById('aPrice').value),unit=document.getElementById('aUnit').value.trim(),cat=document.getElementById('aCat').value,img=document.getElementById('aImg').value.trim();if(!name||!price||!cat){toast(lang==='uz'?'Nom, narx va kategoriya kerak':lang==='en'?'Name, price and category are required':'Нужны название, цена и категория');return}let extra=[];try{extra=JSON.parse(localStorage.getItem('savatchi_products')||'[]')}catch(e){}const id=Date.now();extra.push({id,name,uz:uz||name,en:en||name,price,unit:unit||'шт',cat,img,emoji:'🛒'});localStorage.setItem('savatchi_products',JSON.stringify(extra));adminClearForm();renderAdmin();renderCats();renderProducts();toast(lang==='uz'?'Mahsulot qo‘shildi':lang==='en'?'Product added':'Товар добавлен')}
 function adminClearForm(){['aName','aUz','aEn','aPrice','aUnit','aImg'].forEach(id=>document.getElementById(id).value='')}
@@ -437,16 +441,6 @@ renderCats();renderProducts();renderCart();applyLang();maybeShowLocationPrompt()
 
 <script id="savatchi-runtime-fix">
 document.addEventListener('DOMContentLoaded', function(){
-  document.querySelectorAll('nav button').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      const m = this.getAttribute('onclick') || '';
-      const match = m.match(/show\(['"]([^'"]+)['"]/);
-      if(match && typeof window.show === 'function'){
-        window.show(match[1], this);
-      }
-    });
-  });
-
   document.querySelectorAll('.pic img').forEach(function(img){
     img.addEventListener('error', function(){
       this.style.display='none';
@@ -458,38 +452,27 @@ document.addEventListener('DOMContentLoaded', function(){
 </script>
 
 
-<script id="savatchi-navigation-fix">
+
+<script id="savatchi-final-runtime-fix">
 (function(){
   function go(page, btn){
-    var target=document.getElementById(page);
-    if(!target) return false;
+    var target=document.getElementById(page); if(!target)return;
     document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active');});
     target.classList.add('active');
-    document.querySelectorAll('#bottomNav button').forEach(function(b){b.classList.remove('active');});
-    if(btn) btn.classList.add('active');
+    document.querySelectorAll('#bottomNav a[data-page]').forEach(function(a){a.classList.remove('active');});
+    var nav=btn||document.querySelector('#bottomNav a[data-page="'+page+'"]'); if(nav)nav.classList.add('active');
     window.scrollTo(0,0);
-    if(page==='cart' && typeof window.renderCart==='function') window.renderCart();
-    if(page==='admin' && typeof window.renderAdmin==='function') window.renderAdmin();
-    return true;
+    if(page==='cart'&&typeof renderCart==='function')renderCart();
+    if(page==='admin'&&typeof renderAdmin==='function')renderAdmin();
   }
-
-  function handler(e){
-    var el=e.target && e.target.closest ? e.target.closest('#bottomNav button[data-page]') : null;
-    if(!el) return;
-    e.preventDefault();
-    e.stopImmediatePropagation();
-    go(el.getAttribute('data-page'),el);
-  }
-
-  document.addEventListener('click',handler,true);
-  document.addEventListener('touchend',handler,true);
-
-  window.addEventListener('DOMContentLoaded',function(){
-    document.querySelectorAll('#bottomNav button[data-page]').forEach(function(btn){
-      btn.type='button';
-    });
-  });
+  window.show=go;
+  document.addEventListener('click',function(e){
+    var nav=e.target&&e.target.closest?e.target.closest('#bottomNav a[data-page]'):null;
+    if(nav){go(nav.getAttribute('data-page'),nav);return;}
+    var cat=e.target&&e.target.closest?e.target.closest('#cats button.cat[data-category]'):null;
+    if(cat&&typeof window.selectCategory==='function'){e.preventDefault();window.selectCategory(cat.getAttribute('data-category'));}
+  },false);
+  window.addEventListener('hashchange',function(){var id=location.hash.replace(/^#/,'');if(document.getElementById(id))go(id);});
 })();
 </script>
-
 </body></html>
