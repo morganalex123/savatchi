@@ -26,8 +26,6 @@ nav{position:fixed;bottom:0;left:0;right:0;height:72px;background:rgba(255,255,2
 </style>
 <style id="savatchi-catalog-style">
 .pic img{width:100%;height:100%;padding:10px;object-fit:contain;background:#fafafa}.card{min-width:0}.name{min-height:38px;line-height:19px}.price{font-size:16px}.sub{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-</style><style id="savatchi-admin-style">
-.admin-grid{display:grid;gap:10px}.admin-grid input,.admin-grid select{width:100%;padding:13px;border:1px solid var(--line);border-radius:14px;background:#fff}.admin-actions{display:flex;gap:8px;flex-wrap:wrap}.admin-product{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);border-radius:14px}.admin-product img{width:52px;height:52px;object-fit:contain;border-radius:10px;background:#fafafa}.danger{background:#fff0f0!important;color:#c33!important}.location-ok{color:#15966f;font-weight:700}.admin-badge{font-size:12px;color:var(--muted)}
 </style><style id="location-prompt-style">
 .location-overlay{position:fixed;inset:0;z-index:100;background:rgba(10,18,16,.46);display:none;align-items:flex-end;justify-content:center;padding:16px}
 .location-overlay.show{display:flex}
@@ -185,18 +183,10 @@ body:has(.page:target) .page.active:not(:target){display:none!important}
 <div class="panel">📍 <b data-i18n="addressLabel">Адреса</b><br><span class="sub" id="profileAddress">Янгиюль</span></div>
 <div class="panel"><b>🌐 <span data-i18n="language">Язык / Til</span></b><br><button class="lang" onclick="toggleLang()" id="langBtn">RU / UZ</button></div>
 <div class="panel">💬 <b data-i18n="support">Поддержка</b></div>
-<div class="panel"><button class="primary full" onclick="openAdmin()">⚙️ <span data-i18n="admin">Админ-панель</span></button></div>
+
 </section>
 
-<section id="admin" class="page">
-<div class="back" onclick="show('profile')">‹ <span data-i18n="back">Назад</span></div>
-<h2 data-i18n="admin">Админ-панель</h2>
-<div class="panel"><div class="sub" data-i18n="adminLocal">Изменения сохраняются в этом браузере. Для общей базы нужен сервер.</div></div>
-<div class="panel"><h3 data-i18n="addProduct">Добавить товар</h3><div class="admin-grid">
-<input id="aName" placeholder="Название RU"><input id="aUz" placeholder="Название UZ"><input id="aEn" placeholder="Name EN"><input id="aPrice" type="number" placeholder="Цена, сум"><input id="aUnit" placeholder="Единица: кг / шт / 1 л"><select id="aCat"></select><input id="aImg" placeholder="URL фото товара">
-<div class="admin-actions"><button class="primary" onclick="adminAddProduct()" data-i18n="saveProduct">Добавить товар</button><button class="lang" onclick="adminClearForm()" data-i18n="clear">Очистить</button></div></div></div>
-<div class="panel"><h3 data-i18n="catalog">Каталог</h3><div id="adminProducts"></div></div>
-</section>
+
 
 <section id="checkout" class="page">
 <div class="back" onclick="show('cart')">‹ <span data-i18n="back">Назад</span></div>
@@ -349,19 +339,19 @@ const BASE_PRODUCTS=products.slice();
 const cats=[['🥬','Овощи и фрукты'],['🥩','Мясо и птица'],['🥛','Молочные'],['🛍️','Бакалея'],['🥤','Напитки'],['🍞','Хлеб и выпечка'],['🍬','Сладости'],['🏠','Для дома']];
 const namesUZ={'Овощи и фрукты':'Meva va sabzavotlar','Мясо и птица':'Go‘sht va parranda','Молочные':'Sut mahsulotlari','Бакалея':'Oziq-ovqat','Напитки':'Ichimliklar','Хлеб и выпечка':'Non va pishiriq','Сладости':'Shirinliklar','Для дома':'Uy uchun'};
 const namesEN={'Овощи и фрукты':'Fruits & vegetables','Мясо и птица':'Meat & poultry','Молочные':'Dairy','Бакалея':'Groceries','Напитки':'Drinks','Хлеб и выпечка':'Bakery','Сладости':'Sweets','Для дома':'Home'};
-const I18N={ru:{home:'Главная',orders:'Заказы',cart:'Корзина',profile:'Профиль',phone:'Телефон',phoneHint:'Добавить номер из Telegram',addressLabel:'Адреса',language:'Язык',support:'Поддержка',admin:'Админ-панель',back:'Назад',adminLocal:'Изменения сохраняются в этом браузере. Для общей базы нужен сервер.',addProduct:'Добавить товар',saveProduct:'Добавить товар',clear:'Очистить',catalog:'Каталог',checkoutTitle:'Оформление заказа',deliveryFee:'Доставка: 15 000 сум',shareLocation:'📍 Поделиться геолокацией',deliveryDate:'Дата доставки',today:'Сегодня',tomorrow:'Завтра',deliveryTime:'Время доставки',comment:'Комментарий курьеру',confirmOrder:'Подтвердить заказ',locationReady:'Геолокация получена',locationNeed:'Разрешите доступ к геолокации',locationError:'Не удалось получить геолокацию',
+const I18N={ru:{home:'Главная',orders:'Заказы',cart:'Корзина',profile:'Профиль',phone:'Телефон',phoneHint:'Добавить номер из Telegram',addressLabel:'Адреса',language:'Язык',support:'Поддержка',back:'Назад',adminLocal:'Изменения сохраняются в этом браузере. Для общей базы нужен сервер.',addProduct:'Добавить товар',saveProduct:'Добавить товар',clear:'Очистить',catalog:'Каталог',checkoutTitle:'Оформление заказа',deliveryFee:'Доставка: 15 000 сум',shareLocation:'📍 Поделиться геолокацией',deliveryDate:'Дата доставки',today:'Сегодня',tomorrow:'Завтра',deliveryTime:'Время доставки',comment:'Комментарий курьеру',confirmOrder:'Подтвердить заказ',locationReady:'Геолокация получена',locationNeed:'Разрешите доступ к геолокации',locationError:'Не удалось получить геолокацию',
 locationPromptTitle:'Определим место доставки?',
 locationPromptText:'Разрешите доступ к геолокации — так мы сможем определить место доставки и проверить доступность доставки.',
 locationAllow:'Определить местоположение',
 locationLater:'Указать адрес позже',
 locationDetected:'Местоположение определено',
-locationManual:'Адрес можно указать при оформлении заказа'},uz:{home:'Bosh sahifa',orders:'Buyurtmalar',cart:'Savatcha',profile:'Profil',phone:'Telefon',phoneHint:'Telegramdan raqam qo‘shish',addressLabel:'Manzillar',language:'Til',support:'Qo‘llab-quvvatlash',admin:'Admin panel',back:'Orqaga',adminLocal:'O‘zgarishlar shu brauzerda saqlanadi. Umumiy baza uchun server kerak.',addProduct:'Mahsulot qo‘shish',saveProduct:'Mahsulot qo‘shish',clear:'Tozalash',catalog:'Katalog',checkoutTitle:'Buyurtmani rasmiylashtirish',deliveryFee:'Yetkazib berish: 15 000 so‘m',shareLocation:'📍 Geolokatsiyani yuborish',deliveryDate:'Yetkazib berish sanasi',today:'Bugun',tomorrow:'Ertaga',deliveryTime:'Yetkazib berish vaqti',comment:'Kuryer uchun izoh',confirmOrder:'Buyurtmani tasdiqlash',locationReady:'Geolokatsiya olindi',locationNeed:'Geolokatsiyaga ruxsat bering',locationError:'Geolokatsiyani olish imkoni bo‘lmadi',
+locationManual:'Адрес можно указать при оформлении заказа'},uz:{home:'Bosh sahifa',orders:'Buyurtmalar',cart:'Savatcha',profile:'Profil',phone:'Telefon',phoneHint:'Telegramdan raqam qo‘shish',addressLabel:'Manzillar',language:'Til',support:'Qo‘llab-quvvatlash',back:'Orqaga',adminLocal:'O‘zgarishlar shu brauzerda saqlanadi. Umumiy baza uchun server kerak.',addProduct:'Mahsulot qo‘shish',saveProduct:'Mahsulot qo‘shish',clear:'Tozalash',catalog:'Katalog',checkoutTitle:'Buyurtmani rasmiylashtirish',deliveryFee:'Yetkazib berish: 15 000 so‘m',shareLocation:'📍 Geolokatsiyani yuborish',deliveryDate:'Yetkazib berish sanasi',today:'Bugun',tomorrow:'Ertaga',deliveryTime:'Yetkazib berish vaqti',comment:'Kuryer uchun izoh',confirmOrder:'Buyurtmani tasdiqlash',locationReady:'Geolokatsiya olindi',locationNeed:'Geolokatsiyaga ruxsat bering',locationError:'Geolokatsiyani olish imkoni bo‘lmadi',
 locationPromptTitle:'Yetkazib berish joyini aniqlaymizmi?',
 locationPromptText:'Geolokatsiyaga ruxsat bering — yetkazib berish joyini aniqlaymiz va yetkazib berish mavjudligini tekshiramiz.',
 locationAllow:'Joylashuvni aniqlash',
 locationLater:'Manzilni keyinroq kiritaman',
 locationDetected:'Joylashuv aniqlandi',
-locationManual:'Manzilni buyurtma berishda kiritishingiz mumkin'},en:{home:'Home',orders:'Orders',cart:'Cart',profile:'Profile',phone:'Phone',phoneHint:'Add number from Telegram',addressLabel:'Addresses',language:'Language',support:'Support',admin:'Admin panel',back:'Back',adminLocal:'Changes are saved in this browser. A server is required for a shared database.',addProduct:'Add product',saveProduct:'Add product',clear:'Clear',catalog:'Catalog',checkoutTitle:'Checkout',deliveryFee:'Delivery: 15,000 UZS',shareLocation:'📍 Share location',deliveryDate:'Delivery date',today:'Today',tomorrow:'Tomorrow',deliveryTime:'Delivery time',comment:'Courier comment',confirmOrder:'Confirm order',locationReady:'Location received',locationNeed:'Allow location access',locationError:'Could not get location',
+locationManual:'Manzilni buyurtma berishda kiritishingiz mumkin'},en:{home:'Home',orders:'Orders',cart:'Cart',profile:'Profile',phone:'Phone',phoneHint:'Add number from Telegram',addressLabel:'Addresses',language:'Language',support:'Support',back:'Back',adminLocal:'Changes are saved in this browser. A server is required for a shared database.',addProduct:'Add product',saveProduct:'Add product',clear:'Clear',catalog:'Catalog',checkoutTitle:'Checkout',deliveryFee:'Delivery: 15,000 UZS',shareLocation:'📍 Share location',deliveryDate:'Delivery date',today:'Today',tomorrow:'Tomorrow',deliveryTime:'Delivery time',comment:'Courier comment',confirmOrder:'Confirm order',locationReady:'Location received',locationNeed:'Allow location access',locationError:'Could not get location',
 locationPromptTitle:'Find your delivery location?',
 locationPromptText:'Allow location access so we can determine your delivery area and check delivery availability.',
 locationAllow:'Use my location',
@@ -375,11 +365,51 @@ function money(n){return Number(n||0).toLocaleString('ru-RU')+' сум'}
 function t(k){return (I18N[lang]||I18N.ru)[k]||I18N.ru[k]||k}
 function catName(c){return lang==='uz'?(namesUZ[c]||c):lang==='en'?(namesEN[c]||c):c}
 function renderCats(){document.getElementById('cats').innerHTML=cats.map(c=>`<button class="cat" type="button" data-category="${String(c[1]).replace(/&/g,'&amp;').replace(/"/g,'&quot;')}"><b>${c[0]}</b>${catName(c[1])}</button>`).join('')}
-function renderProducts(){const ps=getProducts(),q=(document.getElementById('search')?.value||'').toLowerCase().trim();const list=ps.filter(p=>(!selectedCategory||p.cat===selectedCategory)&&(!q||(`${p.name} ${p.uz||''} ${p.en||''}`).toLowerCase().includes(q)));const shown=(!selectedCategory&&!q)?list.slice(0,8):list;document.getElementById('products').innerHTML=shown.map(p=>`<div class="card"><div class="pic"><img src="${p.img||''}" alt="${lang==='uz'?(p.uz||p.name):lang==='en'?(p.en||p.name):p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div style="display:none;font-size:52px">${p.emoji||'🛒'}</div></div><div class="name">${lang==='uz'?(p.uz||p.name):lang==='en'?(p.en||p.name):p.name}</div><div class="sub">${p.unit||''}</div><div class="row"><div class="price">${money(p.price)}</div><button class="plus" type="button" onclick="add(${p.id})">+</button></div></div>`).join('')||`<div class="panel"><h2>${lang==='uz'?'Bu kategoriyada mahsulotlar yo‘q':lang==='en'?'No products in this category':'В этой категории пока нет товаров'}</h2></div>`;document.getElementById('popularTitle').textContent=selectedCategory?catName(selectedCategory):(lang==='uz'?'Mashhur':lang==='en'?'Popular':'Популярное')}
+function productPhoto(p){
+const n=((p.name||'')+' '+(p.cat||'')).toLowerCase();
+const base='https://images.pexels.com/photos/';
+const photos={
+ tomato:base+'1367242/pexels-photo-1367242.jpeg?auto=compress&cs=tinysrgb&w=700',
+ cucumber:base+'2329440/pexels-photo-2329440.jpeg?auto=compress&cs=tinysrgb&w=700',
+ potato:base+'10112133/pexels-photo-10112133.jpeg?auto=compress&cs=tinysrgb&w=700',
+ onion:base+'12118672/pexels-photo-12118672.jpeg?auto=compress&cs=tinysrgb&w=700',
+ carrot:base+'7543114/pexels-photo-7543114.jpeg?auto=compress&cs=tinysrgb&w=700',
+ cabbage:base+'6316537/pexels-photo-6316537.jpeg?auto=compress&cs=tinysrgb&w=700',
+ beef:base+'112781/pexels-photo-112781.jpeg?auto=compress&cs=tinysrgb&w=700',
+ chicken:base+'5769382/pexels-photo-5769382.jpeg?auto=compress&cs=tinysrgb&w=700',
+ rice:base+'8108170/pexels-photo-8108170.jpeg?auto=compress&cs=tinysrgb&w=700',
+ chocolate:base+'15961605/pexels-photo-15961605.jpeg?auto=compress&cs=tinysrgb&w=700',
+ bread:base+'16330325/pexels-photo-16330325.jpeg?auto=compress&cs=tinysrgb&w=700',
+ milk:base+'5652184/pexels-photo-5652184.jpeg?auto=compress&cs=tinysrgb&w=700',
+ soda:base+'39720/pexels-photo-39720.jpeg?auto=compress&cs=tinysrgb&w=700'
+};
+if(n.includes('помид')||n.includes('томат'))return photos.tomato;
+if(n.includes('огур'))return photos.cucumber;
+if(n.includes('картоф'))return photos.potato;
+if(n.includes('лук'))return photos.onion;
+if(n.includes('морков'))return photos.carrot;
+if(n.includes('капуст'))return photos.cabbage;
+if(n.includes('говядин')||n.includes('баранин')||n.includes('фарш'))return photos.beef;
+if(n.includes('курин')||n.includes('индейк'))return photos.chicken;
+if(n.includes('рис')||n.includes('греч')||n.includes('чечев')||n.includes('горох')||n.includes('фасоль')||n.includes('маш'))return photos.rice;
+if(n.includes('шоколад')||n.includes('конфет'))return photos.chocolate;
+if(n.includes('хлеб')||n.includes('выпеч')||n.includes('булоч'))return photos.bread;
+if(n.includes('молок')||n.includes('кефир')||n.includes('сметан')||n.includes('йогур')||n.includes('творог')||n.includes('сыр')||n.includes('слив'))return photos.milk;
+if(n.includes('coca')||n.includes('pepsi')||n.includes('fanta')||n.includes('sprite')||n.includes('сок')||n.includes('напит'))return photos.soda;
+if(p.cat==='Овощи и фрукты')return photos.tomato;
+if(p.cat==='Мясо и птица')return photos.beef;
+if(p.cat==='Молочные')return photos.milk;
+if(p.cat==='Бакалея')return photos.rice;
+if(p.cat==='Напитки')return photos.soda;
+if(p.cat==='Хлеб и выпечка')return photos.bread;
+if(p.cat==='Сладости')return photos.chocolate;
+return photos.bread;
+}
+function renderProducts(){const ps=getProducts(),q=(document.getElementById('search')?.value||'').toLowerCase().trim();const list=ps.filter(p=>(!selectedCategory||p.cat===selectedCategory)&&(!q||(`${p.name} ${p.uz||''} ${p.en||''}`).toLowerCase().includes(q)));const shown=(!selectedCategory&&!q)?list.slice(0,8):list;document.getElementById('products').innerHTML=shown.map(p=>`<div class="card"><div class="pic"><img src="${productPhoto(p)}" alt="${lang==='uz'?(p.uz||p.name):lang==='en'?(p.en||p.name):p.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='block'"><div style="display:none;font-size:52px">${p.emoji||'🛒'}</div></div><div class="name">${lang==='uz'?(p.uz||p.name):lang==='en'?(p.en||p.name):p.name}</div><div class="sub">${p.unit||''}</div><div class="row"><div class="price">${money(p.price)}</div><button class="plus" type="button" onclick="add(${p.id})">+</button></div></div>`).join('')||`<div class="panel"><h2>${lang==='uz'?'Bu kategoriyada mahsulotlar yo‘q':lang==='en'?'No products in this category':'В этой категории пока нет товаров'}</h2></div>`;document.getElementById('popularTitle').textContent=selectedCategory?catName(selectedCategory):(lang==='uz'?'Mashhur':lang==='en'?'Popular':'Популярное')}
 function selectCategory(cat){selectedCategory=cat;document.getElementById('search').value='';document.getElementById('catTitle').innerHTML=`<button class="backcat" type="button" onclick="clearCategory()">‹ ${lang==='uz'?'Kategoriyalar':lang==='en'?'Categories':'Категории'}</button>`;renderProducts();window.scrollTo(0,0)}
 function clearCategory(){selectedCategory='';document.getElementById('catTitle').textContent=lang==='uz'?'Kategoriyalar':lang==='en'?'Categories':'Категории';renderProducts();window.scrollTo(0,0)}
 function add(id){cart[id]=(cart[id]||0)+1;renderCart();toast(lang==='uz'?'Savatga qo‘shildi':lang==='en'?'Added to cart':'Добавлено в корзину')}
-function renderCart(){const ps=getProducts(),entries=Object.entries(cart).filter(([id,q])=>q>0);const total=entries.reduce((s,[id,q])=>{const p=ps.find(x=>x.id==id);return s+(p?p.price*q:0)},0);document.getElementById('cartItems').innerHTML=entries.length?entries.map(([id,q])=>{const p=ps.find(x=>x.id==id);return `<div class="panel"><div style="display:flex;gap:12px;align-items:center"><img src="${p.img||''}" style="width:52px;height:52px;object-fit:contain;border-radius:12px;background:#fafafa"><div style="flex:1"><b>${lang==='uz'?(p.uz||p.name):lang==='en'?(p.en||p.name):p.name}</b><div class="sub">${money(p.price)} / ${p.unit}</div></div><div class="qty"><button onclick="change(${id},-1)">−</button><b>${q}</b><button onclick="change(${id},1)">+</button></div></div></div>`}).join(''):`<div class="panel"><h2 style="margin:0">🛒 ${lang==='uz'?'Savatcha bo‘sh':lang==='en'?'Cart is empty':'Корзина пуста'}</h2></div>`;document.getElementById('goodsTotal').textContent=money(total);document.getElementById('grandTotal').textContent=money(total+15000);document.getElementById('checkoutTotal').textContent=money(total+15000).replace(' сум','')}
+function renderCart(){const ps=getProducts(),entries=Object.entries(cart).filter(([id,q])=>q>0);const total=entries.reduce((s,[id,q])=>{const p=ps.find(x=>x.id==id);return s+(p?p.price*q:0)},0);document.getElementById('cartItems').innerHTML=entries.length?entries.map(([id,q])=>{const p=ps.find(x=>x.id==id);return `<div class="panel"><div style="display:flex;gap:12px;align-items:center"><img src="${productPhoto(p)}" style="width:52px;height:52px;object-fit:contain;border-radius:12px;background:#fafafa"><div style="flex:1"><b>${lang==='uz'?(p.uz||p.name):lang==='en'?(p.en||p.name):p.name}</b><div class="sub">${money(p.price)} / ${p.unit}</div></div><div class="qty"><button onclick="change(${id},-1)">−</button><b>${q}</b><button onclick="change(${id},1)">+</button></div></div></div>`}).join(''):`<div class="panel"><h2 style="margin:0">🛒 ${lang==='uz'?'Savatcha bo‘sh':lang==='en'?'Cart is empty':'Корзина пуста'}</h2></div>`;document.getElementById('goodsTotal').textContent=money(total);document.getElementById('grandTotal').textContent=money(total+15000);document.getElementById('checkoutTotal').textContent=money(total+15000).replace(' сум','')}
 function change(id,d){cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];renderCart()}
 window.show=function(id,btn){
 const target=document.getElementById(id);
@@ -391,7 +421,7 @@ const navBtn=btn||document.querySelector('#bottomNav button[data-page="'+id+'"]'
 if(navBtn)navBtn.classList.add('active');
 window.scrollTo({top:0,left:0,behavior:'auto'});
 if(id==='cart'&&typeof renderCart==='function')renderCart();
-if(id==='admin'&&typeof renderAdmin==='function')renderAdmin();
+
 }
 function checkout(){if(!Object.keys(cart).length){toast(lang==='uz'?'Savatcha bo‘sh':lang==='en'?'Cart is empty':'Корзина пуста');return}show('checkout');getLocation(false)}
 function getLocation(manual){
@@ -429,12 +459,12 @@ function applyLang(){document.documentElement.lang=lang;
 document.getElementById('locationPromptTitle').textContent=t('locationPromptTitle');
 document.getElementById('locationPromptText').textContent=t('locationPromptText');
 document.getElementById('locationAllowBtn').textContent=t('locationAllow');
-document.getElementById('locationLaterBtn').textContent=t('locationLater');const langBtn=document.getElementById('langBtn'); if(langBtn) langBtn.textContent=lang==='ru'?'RU / UZ':lang==='uz'?'UZ / EN':'EN / RU';document.getElementById('address').textContent=lang==='uz'?'Yangiyo‘l':lang==='en'?'Yangiyul':'Янгиюль';document.getElementById('profileAddress').textContent=document.getElementById('address').textContent;document.getElementById('checkoutAddress').textContent=document.getElementById('address').textContent;document.getElementById('catTitle').innerHTML=selectedCategory?`<button class="backcat" onclick="clearCategory()">‹ ${lang==='uz'?'Kategoriyalar':lang==='en'?'Categories':'Категории'}</button>`:(lang==='uz'?'Kategoriyalar':lang==='en'?'Categories':'Категории');document.getElementById('search').placeholder=lang==='uz'?'Mahsulot qidirish...':lang==='en'?'Search products...':'Поиск товаров...';document.querySelectorAll('[data-i18n]').forEach(e=>{if(e.dataset.i18n&&t(e.dataset.i18n))e.textContent=t(e.dataset.i18n)});renderCats();renderProducts();renderCart();renderAdmin();try{localStorage.setItem('savatchi_lang',lang)}catch(e){}}
+document.getElementById('locationLaterBtn').textContent=t('locationLater');const langBtn=document.getElementById('langBtn'); if(langBtn) langBtn.textContent=lang==='ru'?'RU / UZ':lang==='uz'?'UZ / EN':'EN / RU';document.getElementById('address').textContent=lang==='uz'?'Yangiyo‘l':lang==='en'?'Yangiyul':'Янгиюль';document.getElementById('profileAddress').textContent=document.getElementById('address').textContent;document.getElementById('checkoutAddress').textContent=document.getElementById('address').textContent;document.getElementById('catTitle').innerHTML=selectedCategory?`<button class="backcat" onclick="clearCategory()">‹ ${lang==='uz'?'Kategoriyalar':lang==='en'?'Categories':'Категории'}</button>`:(lang==='uz'?'Kategoriyalar':lang==='en'?'Categories':'Категории');document.getElementById('search').placeholder=lang==='uz'?'Mahsulot qidirish...':lang==='en'?'Search products...':'Поиск товаров...';document.querySelectorAll('[data-i18n]').forEach(e=>{if(e.dataset.i18n&&t(e.dataset.i18n))e.textContent=t(e.dataset.i18n)});renderCats();renderProducts();renderCart();try{localStorage.setItem('savatchi_lang',lang)}catch(e){}}
 function openAdmin(){const pin=prompt(lang==='uz'?'Admin PIN kiriting:':lang==='en'?'Enter admin PIN:':'Введите PIN администратора:');if(pin==='1234')show('admin');else if(pin!==null)toast(lang==='uz'?'PIN noto‘g‘ri':lang==='en'?'Wrong PIN':'Неверный PIN')}
 function adminAddProduct(){const name=document.getElementById('aName').value.trim(),uz=document.getElementById('aUz').value.trim(),en=document.getElementById('aEn').value.trim(),price=Number(document.getElementById('aPrice').value),unit=document.getElementById('aUnit').value.trim(),cat=document.getElementById('aCat').value,img=document.getElementById('aImg').value.trim();if(!name||!price||!cat){toast(lang==='uz'?'Nom, narx va kategoriya kerak':lang==='en'?'Name, price and category are required':'Нужны название, цена и категория');return}let extra=[];try{extra=JSON.parse(localStorage.getItem('savatchi_products')||'[]')}catch(e){}const id=Date.now();extra.push({id,name,uz:uz||name,en:en||name,price,unit:unit||'шт',cat,img,emoji:'🛒'});localStorage.setItem('savatchi_products',JSON.stringify(extra));adminClearForm();renderAdmin();renderCats();renderProducts();toast(lang==='uz'?'Mahsulot qo‘shildi':lang==='en'?'Product added':'Товар добавлен')}
 function adminClearForm(){['aName','aUz','aEn','aPrice','aUnit','aImg'].forEach(id=>document.getElementById(id).value='')}
 function deleteAdminProduct(id){let extra=JSON.parse(localStorage.getItem('savatchi_products')||'[]').filter(p=>p.id!==id);localStorage.setItem('savatchi_products',JSON.stringify(extra));renderAdmin();renderProducts();toast(lang==='uz'?'O‘chirildi':lang==='en'?'Deleted':'Удалено')}
-function renderAdmin(){const sel=document.getElementById('aCat');if(!sel)return;sel.innerHTML=cats.map(c=>`<option value="${c[1]}">${catName(c[1])}</option>`).join('');const extra=JSON.parse(localStorage.getItem('savatchi_products')||'[]');document.getElementById('adminProducts').innerHTML=extra.length?extra.map(p=>`<div class="admin-product"><img src="${p.img||''}"><div style="flex:1"><b>${p.name}</b><div class="admin-badge">${catName(p.cat)} • ${money(p.price)}</div></div><button class="lang danger" onclick="deleteAdminProduct(${p.id})">✕</button></div>`).join(''):`<div class="sub">${lang==='uz'?'Qo‘shimcha mahsulotlar yo‘q':lang==='en'?'No added products':'Добавленных товаров пока нет'}</div>`}
+function renderAdmin(){const sel=document.getElementById('aCat');if(!sel)return;sel.innerHTML=cats.map(c=>`<option value="${c[1]}">${catName(c[1])}</option>`).join('');const extra=JSON.parse(localStorage.getItem('savatchi_products')||'[]');document.getElementById('adminProducts').innerHTML=extra.length?extra.map(p=>`<div class="admin-product"><img src="${productPhoto(p)}"><div style="flex:1"><b>${p.name}</b><div class="admin-badge">${catName(p.cat)} • ${money(p.price)}</div></div><button class="lang danger" onclick="deleteAdminProduct(${p.id})">✕</button></div>`).join(''):`<div class="sub">${lang==='uz'?'Qo‘shimcha mahsulotlar yo‘q':lang==='en'?'No added products':'Добавленных товаров пока нет'}</div>`}
 try{const saved=localStorage.getItem('savatchi_lang');if(saved&&I18N[saved])lang=saved}catch(e){}
 renderCats();renderProducts();renderCart();applyLang();maybeShowLocationPrompt();
 </script>
